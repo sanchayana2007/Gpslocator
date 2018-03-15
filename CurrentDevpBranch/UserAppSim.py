@@ -65,9 +65,8 @@ class Userapp:
     	    logger.info(' got:CONN READY from Server  '+ msg)
             logger.info( "Sending SUB request")
             self.sub()
-            return True
 	else:
-	    logger.error("Server is not Conn ready State",msg) 
+	    logger.info("Message from Vehicle"+msg) 
 
     def on_error(self,ws, error):
 	logger.error("Server "+error) 
@@ -115,7 +114,7 @@ if __name__ == "__main__":
     setlogger()
 
     mob_num = '3563563563'
-    vid = '5aa918f535238929e8bbdade3563563563'
+    vid = '5aa918f535238929e8bbdade'
     Userapp_Create(mob_num,vid)
 
     #TO DO Sending req Async by Threads and Clean Exists of threads 
