@@ -1,8 +1,6 @@
-#replicate the User App
-#!/usr/bin/python
+#!/usr/bin/python:wq
 
 #Core imports 
-import thread
 import time
 import json
 import sys
@@ -16,6 +14,7 @@ except ImportError:
 
    print('Install 3rd party Module: websocket-client,requests')
    	
+import  threaduserApp
 def setlogger():
     # create logger
 	
@@ -63,15 +62,15 @@ class Userapp:
     def on_message(self,ws, msg):
         msg = str(msg)
         if msg.find('conn_ready') > 0:
+    	    logger.info(' got:CONN READY from Server  '+ msg)
             logger.info( "Sending SUB request")
-    	    logger.debug(' got:CONN READY from Server  '+ msg)
             self.sub()
             return True
 	else:
 	    logger.error("Server is not Conn ready State",msg) 
 
     def on_error(self,ws, error):
-	logger.error("Server ",error) 
+	logger.error("Server "+error) 
 
     def on_close(self,ws):
         logger.info( "On closed ")
@@ -100,18 +99,29 @@ class Userapp:
 	else:
 	     logger.critical('Websocket connection is not posible')
 
-if __name__ == "__main__":
-    #mob_num = sys.argv[1]
-    #vid = sys.argv[2]
-    setlogger()
-
-
-
-
-    mob_num = '3563563563'
-    vid = '5aa918f535238929e8bbdade3563563563'
+def Userapp_Create(mob_num,vid):
+    
     logger.info('user number:%s and vid %s',mob_num,vid)
     user1=Userapp(mob_num,vid)
     ret = user1.get_auth_token()
     if ret:
         user1.ws_comm()
+    
+
+
+if __name__ == "__main__":
+    #mob_num = sys.argv[1]
+    #vid = sys.argv[2]
+    setlogger()
+
+    mob_num = '3563563563'
+    vid = '5aa918f535238929e8bbdade3563563563'
+    Userapp_Create(mob_num,vid)
+
+    #TO DO Sending req Async by Threads and Clean Exists of threads 
+    '''
+    for i in range(5):
+        t=threaduserApp.myThread(mob_num,vid,i)    
+        t.start()
+    '''
+ 
